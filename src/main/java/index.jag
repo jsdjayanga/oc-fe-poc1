@@ -1,0 +1,60 @@
+<html>
+    <head>
+        <title>
+            Operation Center
+        </title>
+        <meta http-equiv="refresh" content="5">
+    </head>
+    <body>
+        <p>Operation Center</p>
+
+        <table width="100%" border="1">
+            <tr><td>Server</td><td>Statue</td><td>Seconds</td><td>Actions</td></tr>
+
+            <%
+
+            var log = new Log();
+
+            var model = application.get('model');
+            if(model == null){
+                log.info("No one is registered yet");
+            }
+            else{
+
+            print(model);
+
+                var node = null;
+                for (var i=0;i<model.length;i++)
+                {
+                    node = model[i];
+                    if (node != null){
+
+                        print('<tr>');
+
+                        print('<td>');
+                        print(node.name);
+                        print('</td>');
+
+                        print('<td>');
+                        print(node.status);
+                        print('</td>');
+
+                        print('<td>');
+                        print(node.seconds);
+                        print('</td>');
+
+                        print('<td><a href="https://192.168.184.1:9443/operation_center/api/action/restart.jag?server=');
+                        print(node.name);
+                        print('">');
+                        print('Restart');
+                        print('</a></td>');
+
+                        print('</tr>');
+                    }
+                }
+            }
+
+            %>
+        </table>
+    </body>
+</html>

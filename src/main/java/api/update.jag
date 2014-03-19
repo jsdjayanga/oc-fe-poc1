@@ -1,0 +1,58 @@
+<%
+
+var log = new Log();
+
+log.info("update back end");
+print("update front end");
+
+var body = request.getContent();
+log.info(body);
+
+var jsonString = stringify(body)
+var obj = parse(jsonString);
+
+var servername = obj.statistics[0].servername;
+print(servername);
+
+var model = application.get('model');
+if(model == null){
+    log.info("No one is registered yet");
+}
+else{
+    var node = null;
+    for (var i=0;i<model.length;i++)
+    {
+        node = model[i];
+        if (node != null){
+            if(node.servername == servername){
+                break;
+            }
+        }
+    }
+
+    if(node == null){
+        log.info("A node not found with the given name " + servername);
+    }else{
+
+        var status = obj.statistics[0].status;
+        var seconds = obj.statistics[0].seconds;
+
+        var d=new Date();
+        var t=d.getTime();
+
+        node.status = status;
+        node.seconds = seconds;
+        //node.lasttimestamp = t;
+
+        print(model);
+    }
+}
+
+
+response.addHeader("custom-header", "jaggery_response");
+response.contentType = 'application/json';
+response.content = { products : ["Update", "update"] };
+
+print("Update Done");
+
+%>

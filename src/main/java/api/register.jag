@@ -1,0 +1,55 @@
+<%
+var log = new Log();
+
+log.info("register back end");
+print("register front end");
+
+var body = request.getContent();
+log.info(body);
+
+response.addHeader("custom-header", "jaggery_response");
+response.contentType = 'application/json';
+response.content = { products : ["Register", "register"] };
+response.status = 201;
+
+var jsonString = stringify(body)
+var obj = parse(jsonString);
+
+//print("=======================================");
+//print(obj);
+//print(obj.employees[0].firstName);
+
+var model = application.get('model');
+if(model == null){
+    model = new Array();
+    application.put('model', model);
+}
+
+var servername = obj.registration[0].servername;
+print(servername);
+
+var node = null;
+for (var i=0;i<model.length;i++)
+{
+    var xnode = model[i];
+    if (node != null){
+        if(node.servername == servername){
+            node = xnode;
+            break;
+        }
+    }
+}
+
+if(node == null){
+
+    print("++++++++++++++++++++++++++++++++++++++++");
+
+    node = new Object();
+    node.name = servername;
+    model[model.length] = node;
+}
+
+print(model);
+
+print("Register Done");
+%>
